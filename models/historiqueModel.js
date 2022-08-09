@@ -28,11 +28,11 @@ const findById = async (id) => {
     throw error;
   }
 };
-const findhistorique=async()=>
+const findhistorique=async(userId)=>
 {
     try
     {
-     return query("SELECT hist.*, temp.NOM, temp.PRENOM, temp.EMAIL, temp.TELEPHONE, temp.DATE_NAISSANCE, temp.DATE_RENDEVOUS FROM historique hist LEFT JOIN tempo_requerant temp ON hist.ID_RDV=temp.RDV_ID  WHERE 1");
+     return query("SELECT hist.*, temp.NOM, temp.PRENOM, temp.EMAIL, temp.TELEPHONE, temp.DATE_NAISSANCE, temp.DATE_RENDEVOUS FROM historique hist LEFT JOIN tempo_requerant temp ON hist.ID_RDV=temp.RDV_ID  WHERE hist.ID_USER=? ORDER BY hist.DATE DESC", [userId]);
 
     }
     catch(error)
