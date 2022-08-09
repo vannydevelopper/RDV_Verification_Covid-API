@@ -148,8 +148,10 @@ const findByIdrequerant = async (req, res) => {
 }
 
 const findAll = async (req, res) => {
+    const {q,limit,offset}=req.query
+
     try {
-        const historique = await historiqueModel.findhistorique(req.userId)
+        const historique = await historiqueModel.findhistorique(req.userId,q,limit,offset)
         res.status(200).json(historique)
 
     }

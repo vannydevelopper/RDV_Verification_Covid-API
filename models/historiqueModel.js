@@ -28,7 +28,7 @@ const findById = async (id) => {
     throw error;
   }
 };
-const findhistorique=async(userId)=>
+const findhistorique=async(userId,q,offset=0,limit=10)=>
 {
     try
     {
