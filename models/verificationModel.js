@@ -22,7 +22,12 @@ const findByIdC = async (column, value) => {
         throw error
     }
   }
+  const findhistorique= async(ID_RDV)=>{
+    var sqlQuery='SELECT ID_RDV FROM historique WHERE 1 AND ID_RDV=?'
+    return query(sqlQuery,[ID_RDV])
+  }
   module.exports={
     findByIdC,
-    findPayement
+    findPayement,
+    findhistorique
   }

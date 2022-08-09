@@ -102,7 +102,7 @@ const createhistorique = async (req, res) => {
 
         }
 
-        if (!req.files) {
+        if (!req.files){
             res.send({
                 status: false,
                 message: 'No files uploaded'
