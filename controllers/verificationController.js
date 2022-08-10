@@ -7,7 +7,7 @@ const findByIdrequerant = async (req, res) => {
         const {cq_id} = req.query;
         
         var id_rendez_vous=(await verificationModel.findhistorique(cq_id))[0]
-        console.log(id_rendez_vous)
+        console.log(cq_id)
         if(id_rendez_vous){
             return res.status(422).json(
                 {
@@ -17,6 +17,7 @@ const findByIdrequerant = async (req, res) => {
                    
                 })
         }
+        
             var requerantRDV = (await verificationModel.findByIdC("RDV_ID", cq_id))[0];
             if (requerantRDV) {
                 const payement = (await verificationModel.findPayement(cq_id))[0];
