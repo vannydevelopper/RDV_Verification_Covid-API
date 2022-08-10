@@ -1,8 +1,8 @@
 const {query}=require("../function/db");
-const findByIdC = async (column, value) => {
+const findByIdC = async (value) => {
     try {
         
-        var sqlQuery = `SELECT NOM,PRENOM ,TELEPHONE,DATE_NAISSANCE,DATE_RENDEVOUS, EMAIL,LIEU_DE_NAISSANCE, ADRESSE_RESIDENCE, AEROPORT_EMBARQUEMA,DATE_INSERTION  FROM tempo_requerant  WHERE ${column} = ? `;
+        var sqlQuery = `SELECT NOM,PRENOM ,TELEPHONE,DATE_NAISSANCE,DATE_RENDEVOUS, EMAIL,LIEU_DE_NAISSANCE, ADRESSE_RESIDENCE, AEROPORT_EMBARQUEMA,DATE_INSERTION  FROM tempo_requerant  WHERE RDV_ID = ? `;
         return query(sqlQuery, [value]);
     }
     catch (error) {
