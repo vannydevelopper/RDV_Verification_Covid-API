@@ -151,7 +151,7 @@ const findAll = async (req, res) => {
     const {q,limit,offset}=req.query
 
     try {
-        const historique = await historiqueModel.findhistorique(req.userId,q,limit,offset)
+        const historique = await historiqueModel.findhistorique(req.userId,q,offset,limit)
         res.status(200).json(historique)
 
     }
