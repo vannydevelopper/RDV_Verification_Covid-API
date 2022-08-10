@@ -13,6 +13,7 @@ const findByIdrequerant = async (req, res) => {
                 {
                     success: false,
                     message: "Requérant est déja confirmé",
+                    type: "CONFIRME"
                    
                 })
         }
@@ -47,6 +48,7 @@ const findByIdrequerant = async (req, res) => {
                     {
                         success: false,
                         message: "Rendez vous invalide",
+                        type: "INVALIDE"
                         // errors: validation.getErrors(),
                     })
                 
