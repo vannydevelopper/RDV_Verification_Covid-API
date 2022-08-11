@@ -5,7 +5,7 @@ const createOne = async (ID_USER, ID_RDV, LONGITUDE, LATITUDE, PHOTO_BRD, PHOTO_
     sqlQuery += "VALUES(?,?,?,?,?,?)"
     return query(sqlQuery, [
       ID_USER,
-      ID_RDV,
+      ID_RDV ,
       LONGITUDE,
       LATITUDE,
       PHOTO_BRD,
@@ -55,9 +55,22 @@ const findByIdC = async (column, value) => {
   }
 
 }
+
+const findByIdCheck = async (ID_RDV) => {
+  try {
+      
+    var sqlQuery = `SELECT TEMPO_REQUERANT_ID FROM tempo_requerant  WHERE md5(TEMPO_REQUERANT_ID) = ? `;
+    return query(sqlQuery, [ID_RDV]);
+  }
+  catch (error) {
+    throw error
+  }
+
+}
 module.exports = {
   createOne,
   findhistorique,
   findById,
-  findByIdC
+  findByIdC,
+  findByIdCheck
 }

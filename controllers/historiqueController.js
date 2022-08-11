@@ -72,9 +72,17 @@ const createhistorique = async (req, res) => {
 
         validation.run()
         if (validation.isValidate()) {
+            if(ID_RDV.length > 10){
+                var idCheck = (await historiqueModel.findByIdCheck(ID_RDV))[0]
+                var ckeck = idCheck.TEMPO_REQUERANT_ID
+            }else{
+                var ckeck = ID_RDV
+            }
+            console.log(idCheck)
+            
             const { insertId } = await historiqueModel.createOne(
                 req.userId,
-                ID_RDV,
+                ckeck,
                 LONGITUDE,
                 LATITUDE,
 

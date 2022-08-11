@@ -6,14 +6,14 @@ const findByIdrequerant = async (req, res) => {
     try {
         const {cq_id} = req.query;
         
-        var id_rendez_vous=(await verificationModel.findhistorique(parseInt(cq_id)))[0]
+        // var id_rendez_vous=(await verificationModel.findhistorique(parseInt(cq_id)))[0]
+        var id_rendez_vous=(await verificationModel.findhistorique(cq_id))[0]
         if(id_rendez_vous){
             return res.status(422).json(
                 {
                     success: false,
-                    message: "Requérant est déja confirmé",
-                    type: "CONFIRME"
-                   
+                    message: "Requérant est déjà confirmé",
+                    type: "CONFIRME"   
                 })
         }
         
