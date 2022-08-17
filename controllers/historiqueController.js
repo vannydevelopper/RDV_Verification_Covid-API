@@ -1,7 +1,8 @@
 const historiqueModel = require("../models/historiqueModel")
 const Validation = require("../class/Validation")
 const path = require("path");
-const moment = require("moment")
+const moment = require("moment");
+const { query } = require("../function/db");
 
 const createhistorique = async (req, res) => {
 
@@ -130,7 +131,9 @@ const createhistorique = async (req, res) => {
                 STATUT=1
             );
 
-            
+            await query ("update tempo_requerant SET TRAITE=1, USER_ID= ?, DATE_TRAITEMENT=? WHERE TEMPO_REQUERANT_ID=?",[
+                req.userId, TRAITE, moment().format('YYYY/MM/DD HH:mm:ss'), TEMPO_REQUERANT_ID
+            ])
 
             const historique = (await historiqueModel.findById(insertId))[0]
             res.status(200).json({
