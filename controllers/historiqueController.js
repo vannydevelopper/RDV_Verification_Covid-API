@@ -1,13 +1,14 @@
 const historiqueModel = require("../models/historiqueModel")
 const Validation = require("../class/Validation")
 const path = require("path");
+const moment = require("moment")
 
 const createhistorique = async (req, res) => {
 
     try {
         const
             {
-                ID_RDV,
+                TEMPO_REQUERANT_ID,
                 LONGITUDE,
                 LATITUDE
             } = req.body
@@ -71,26 +72,55 @@ const createhistorique = async (req, res) => {
         )
 
         validation.run()
+
         if (validation.isValidate()) {
-            if(ID_RDV.length > 10){
-                var idCheck = (await historiqueModel.findByIdCheck(ID_RDV))[0]
-                var ckeck = idCheck.TEMPO_REQUERANT_ID
-            }else{
-                var ckeck = ID_RDV
+            if(TEMPO_REQUERANT_ID){
+                var idCheck = (await historiqueModel.findByIdCheck(TEMPO_REQUERANT_ID))[0]
             }
             console.log(idCheck)
             
-            const { insertId } = await historiqueModel.createOne(
-                req.userId,
-                ckeck,
+             const age = moment().get("year") - moment(idCheck.DATE_NAISSANCE).get("year")
+            const { insertId } = await historiqueModel.createOneRequerant(
+                idCheck.NOM,
+                idCheck.PRENOM,
+                idCheck.EMAIL,
+                idCheck.TELEPHONE,
+                idCheck.PROVINCE_ID_RESIDENCE,
+                idCheck.COMMUNE_ID_RESIDENCE,
+                idCheck.ZONE_ID_RESIDENCE,
+                idCheck.COLLINE_ID_RESIDENCE,
+                idCheck.NATIONALITE_ID,
+                moment().format('YYYY/MM/DD HH:mm:ss'),
+                idCheck.NUMERO_DOCUMENT,
+                idCheck.STRUCTURE_ID,
+                idCheck.DATE_NAISSANCE,
+                age,
+                idCheck.DOCUMENT_ID,
+                idCheck.GENRE_ID,
+                EST_VOYAGEUR=1,
+                idCheck.PROVENANCE_PAYS_ID,
+                idCheck.HOTEL_ID,
+                idCheck.PROVENANCE,
+                REQUERANT_STATUT_ID=3,
+                idCheck.VOL_ID,
+                moment().format('YYYY/MM/DD HH:mm:ss'),
+                idCheck.TEMPO_REQUERANT_ID,
+                idCheck.AUTRE_DESTINATION ?  idCheck.AUTRE_DESTINATION : idCheck.AUTRE_HOTEL,
+                idCheck.REQUERANT_LANGUE_CERTIFICAT,
+            );
+
+            //const idRequerant = (await historiqueModel.findByIdRequerant(REQUERANT_ID))[0]
+            const { Id } = await historiqueModel.createOne(
+                insertId,
                 LONGITUDE,
                 LATITUDE,
+                ETAPE=1,
+                req.userId,
 
                 PHOTO_BRD ? `${req.protocol}://${req.get("host")}/images/photo_brd/${PHOTO_BRD.name}` :null,
                  `${req.protocol}://${req.get("host")}/images/photo_prs/${PHOTO_PRS.name}`,// IMAGE.name
 
             );
-            console.log(req.userId,)
 
             const historique = (await historiqueModel.findById(insertId))[0]
             res.status(200).json({
