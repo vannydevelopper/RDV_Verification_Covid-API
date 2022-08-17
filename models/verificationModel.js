@@ -2,7 +2,7 @@ const { query } = require("../function/db");
 const findByIdC = async (value) => {
   try {
 
-    var sqlQuery = `SELECT NOM,PRENOM ,TELEPHONE,DATE_NAISSANCE,DATE_RENDEVOUS, EMAIL,LIEU_DE_NAISSANCE, ADRESSE_RESIDENCE, AEROPORT_EMBARQUEMA,DATE_INSERTION  FROM tempo_requerant  WHERE 1`;
+    var sqlQuery = `SELECT TEMPO_REQUERANT_ID, NOM,PRENOM ,TELEPHONE,DATE_NAISSANCE,DATE_RENDEVOUS, EMAIL,LIEU_DE_NAISSANCE, ADRESSE_RESIDENCE, AEROPORT_EMBARQUEMA,DATE_INSERTION  FROM tempo_requerant  WHERE 1`;
         if(value.length > 10){
           sqlQuery += ` AND md5(TEMPO_REQUERANT_ID) = ? `
         }else{
