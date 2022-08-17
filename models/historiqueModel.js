@@ -20,6 +20,24 @@ const createOne = async (	REQUERANT_ID, LONGITUDE, LATITUDE, ETAPE, USER_ID, PAT
     res.status(500).send("server error")
   }
 }
+
+const createLaboratoire = async (	STRUCTURE_ID, REQUERANT_ID, STATUT ) => {
+  try {
+    var sqlQuery = "INSERT INTO requerant_laboratoire(STRUCTURE_ID,REQUERANT_ID,STATUT)";
+    sqlQuery += "VALUES(?,?,?)"
+    return query(sqlQuery, [
+      STRUCTURE_ID,
+      REQUERANT_ID,
+      STATUT
+    ]);
+
+  }
+  catch (error) {
+    console.log(error)
+    res.status(500).send("server error")
+  }
+}
+
 const findById = async (id) => {
   try {
     return query("SELECT * FROM historique WHERE ID_HISTORIQUE = ?", [id]);
@@ -114,5 +132,6 @@ module.exports = {
   findByIdC,
   findByIdCheck,
   findByIdChecknonCripte,
-  createOneRequerant
+  createOneRequerant,
+  createLaboratoire
 }

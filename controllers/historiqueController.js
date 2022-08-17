@@ -77,8 +77,9 @@ const createhistorique = async (req, res) => {
             if(TEMPO_REQUERANT_ID){
                 var idCheck = (await historiqueModel.findByIdCheck(TEMPO_REQUERANT_ID))[0]
             }
-            console.log(idCheck)
-            
+            //console.log(idCheck)
+
+            //insertion dans la table requerant
              const age = moment().get("year") - moment(idCheck.DATE_NAISSANCE).get("year")
             const { insertId } = await historiqueModel.createOneRequerant(
                 idCheck.NOM,
@@ -109,8 +110,8 @@ const createhistorique = async (req, res) => {
                 idCheck.REQUERANT_LANGUE_CERTIFICAT,
             );
 
-            //const idRequerant = (await historiqueModel.findByIdRequerant(REQUERANT_ID))[0]
-            const { Id } = await historiqueModel.createOne(
+            //insertion dans la table requerant trakings
+            const { IdTraking } = await historiqueModel.createOne(
                 insertId,
                 LONGITUDE,
                 LATITUDE,
@@ -120,6 +121,13 @@ const createhistorique = async (req, res) => {
                 PHOTO_BRD ? `${req.protocol}://${req.get("host")}/images/photo_brd/${PHOTO_BRD.name}` :null,
                  `${req.protocol}://${req.get("host")}/images/photo_prs/${PHOTO_PRS.name}`,// IMAGE.name
 
+            );
+            
+            //insertion dans la table requerant laboratoire
+            const {idLaboratoire} = await historiqueModel.createLaboratoire(
+                idCheck.STRUCTURE_ID,
+                insertId,
+                STATUT=1
             );
 
             const historique = (await historiqueModel.findById(insertId))[0]
