@@ -130,6 +130,8 @@ const createhistorique = async (req, res) => {
                 STATUT=1
             );
 
+            
+
             const historique = (await historiqueModel.findById(insertId))[0]
             res.status(200).json({
                 success: true,
