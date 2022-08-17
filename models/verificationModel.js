@@ -8,13 +8,12 @@ const findByIdC = async (value) => {
         }else{
           sqlQuery += ` AND TEMPO_REQUERANT_ID = ? `
         }  
-    return query(sqlQuery, [value]);
+    return query(sqlQuery,[value]);
 
   }
-  catch (error) {
+  catch (error){
     throw error
   }
-
 
 }
 const findPayement = async (RDV_ID) => {
@@ -42,8 +41,15 @@ const findhistorique = async (cq_id) => {
   return query(sqlQuery, [cq_id])
 
 }
+const findDateRendevous = async (cq_id) =>{
+  var sqlQuery = 'SELECT DATE_RENDEVOUS FROM tempo_requerant WHERE 1 '
+   
+  return query(sqlQuery, [cq_id])
+
+}
 module.exports = {
   findByIdC,
   findPayement,
-  findhistorique
+  findhistorique,
+  findDateRendevous
 }

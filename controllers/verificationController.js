@@ -1,10 +1,10 @@
 const verificationModel = require("../models/verificationModel")
 const Validation = require("../class/Validation");
 
-const findByIdrequerant = async (req, res) => {
+const findByIdrequerant = async (req, res) =>{
 
     try {
-        const {cq_id} = req.query;
+        const {cq_id} =req.query;
         
         // var id_rendez_vous=(await verificationModel.findhistorique(parseInt(cq_id)))[0]
         var id_rendez_vous=(await verificationModel.findhistorique(cq_id))[0]
