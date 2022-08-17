@@ -2,9 +2,9 @@ const { query } = require("../function/db");
 const findByIdC = async (value) => {
   try {
 
-    var sqlQuery = `SELECT TEMPO_REQUERANT_ID, NOM,PRENOM ,TELEPHONE,DATE_NAISSANCE,DATE_RENDEVOUS, EMAIL,LIEU_DE_NAISSANCE, ADRESSE_RESIDENCE, AEROPORT_EMBARQUEMA,DATE_INSERTION  FROM tempo_requerant  WHERE 1`;
+    var sqlQuery = `SELECT TEMPO_REQUERANT_ID, NOM,PRENOM ,TELEPHONE,DATE_NAISSANCE,DATE_RENDEVOUS, EMAIL,LIEU_DE_NAISSANCE, ADRESSE_RESIDENCE, AEROPORT_EMBARQUEMA,DATE_INSERTION,vl_voyageur_documents.DOCUMENT_DESCR FROM tempo_requerant LEFT JOIN vl_voyageur_documents ON vl_voyageur_documents.DOCUMENT_ID=tempo_requerant.DOCUMENT_ID`;
         if(value.length > 10){
-          sqlQuery += ` AND md5(TEMPO_REQUERANT_ID) = ? `
+          sqlQuery += ` AND md5(TEMPO_REQUERANT_ID) =? `
         }else{
           sqlQuery += ` AND TEMPO_REQUERANT_ID = ? `
         }  
@@ -41,15 +41,10 @@ const findhistorique = async (cq_id) => {
   return query(sqlQuery, [cq_id])
 
 }
-const findDateRendevous = async (cq_id) =>{
-  var sqlQuery = 'SELECT DATE_RENDEVOUS FROM tempo_requerant WHERE 1 '
-   
-  return query(sqlQuery, [cq_id])
 
-}
 module.exports = {
   findByIdC,
   findPayement,
   findhistorique,
-  findDateRendevous
+  
 }
