@@ -75,18 +75,8 @@ const createhistorique = async (req, res) => {
         validation.run()
 
         if (validation.isValidate()) {
-            if(TEMPO_REQUERANT_ID){
-                var idCheck = (await historiqueModel.findByIdCheck(TEMPO_REQUERANT_ID))[0] 
-                // if(idCheck.PROVENANCE = 2){
-                //     await query ("INSERT INTO requerant (POINT_ENTREE_ID) VALUES(?)",[20])
-                //     console.log(query)
-                // }else{
-                    
-                // }
-            }
-            //console.log(idCheck)
-
-            //insertion dans la table requerant
+            var idCheck = (await historiqueModel.findByIdCheck(TEMPO_REQUERANT_ID))[0]
+            const pointEntre = idCheck.PROVENANCE == 2 ? 20 : null
              const age = moment().get("year") - moment(idCheck.DATE_NAISSANCE).get("year")
             const { insertId } = await historiqueModel.createOneRequerant(
                 idCheck.NOM,
@@ -97,6 +87,7 @@ const createhistorique = async (req, res) => {
                 idCheck.COMMUNE_ID_RESIDENCE,
                 idCheck.ZONE_ID_RESIDENCE,
                 idCheck.COLLINE_ID_RESIDENCE,
+                idCheck.DISTRICT_ID,
                 idCheck.NATIONALITE_ID,
                 moment().format('YYYY/MM/DD HH:mm:ss'),
                 idCheck.NUMERO_DOCUMENT,
@@ -108,7 +99,7 @@ const createhistorique = async (req, res) => {
                 EST_VOYAGEUR=1,
                 idCheck.PROVENANCE_PAYS_ID,
                 idCheck.HOTEL_ID,
-                // pointEntre || Entrer_id,
+                pointEntre,
                 idCheck.PROVENANCE,
                 REQUERANT_STATUT_ID=3,
                 idCheck.VOL_ID,
@@ -116,6 +107,7 @@ const createhistorique = async (req, res) => {
                 idCheck.TEMPO_REQUERANT_ID,
                 idCheck.AUTRE_DESTINATION ?  idCheck.AUTRE_DESTINATION : idCheck.AUTRE_HOTEL,
                 idCheck.REQUERANT_LANGUE_CERTIFICAT,
+
             );
 
             //insertion dans la table requerant trakings
