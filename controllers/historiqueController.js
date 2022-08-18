@@ -139,7 +139,7 @@ const createhistorique = async (req, res) => {
                 success: true,
                 message: "enregistrement reussi avec succes"
             })
-            console.log(req.userId)
+            //console.log(req.userId)
 
         }
         else {
