@@ -72,23 +72,38 @@ const createOneRequerant = async (REQUERANT_NOM, REQUERANT_PRENOM,
 }
 
 
+// const findhistorique = async (userId, q, offset = 0, limit = 10) => {
+//   try {
+//     var binds = [userId];
+//     var sqlQuery = `SELECT hist.*, temp.NOM, temp.PRENOM, temp.EMAIL, temp.TELEPHONE, temp.DATE_NAISSANCE, temp.DATE_RENDEVOUS FROM historique hist LEFT JOIN tempo_requerant temp ON hist.ID_RDV=temp.RDV_ID  WHERE hist.ID_USER=? `;
+//     if (q && q != "") {
+//       sqlQuery += " AND ( temp.NOM LIKE ? OR temp.PRENOM LIKE ? OR temp.EMAIL LIKE ? OR temp.TELEPHONE LIKE ? OR temp.DATE_NAISSANCE LIKE ? OR temp.DATE_RENDEVOUS LIKE ?)";
+//       binds.push(`%${q}%`, `%${q}%`, `%${q}%`, `%${q}%`, `%${q}%`, `%${q}%`);
+//     }
+//     sqlQuery += " ORDER BY hist.DATE DESC ";
+//     sqlQuery += `LIMIT ${offset}, ${limit}`;
+//     return query(sqlQuery, binds);
+//   }
+//   catch (error) {
+//     throw error
+//   }
+// }
+
 const findhistorique = async (userId, q, offset = 0, limit = 10) => {
   try {
     var binds = [userId];
-    var sqlQuery = `SELECT hist.*, temp.NOM, temp.PRENOM, temp.EMAIL, temp.TELEPHONE, temp.DATE_NAISSANCE, temp.DATE_RENDEVOUS FROM historique hist LEFT JOIN tempo_requerant temp ON hist.ID_RDV=temp.RDV_ID  WHERE hist.ID_USER=? `;
+    var sqlQuery = `SELECT track.*, requ.REQUERANT_NOM,requ.REQUERANT_PRENOM, requ.TELEPHONE, requ.EMAIL,requ.DATE_NAISSANCE, requ.AGE, requ.CNI_PASSPORT_CPGL, requ.DATE_PRELEVEMENT, requ.DATE_ATTERISSAGE, requ.DATE_INSERTION FROM requerant_tracking_gps track LEFT JOIN requerant requ ON requ.REQUERANT_ID=track.REQUERANT_ID WHERE track.USER_ID=?`;
     if (q && q != "") {
-      sqlQuery += " AND ( temp.NOM LIKE ? OR temp.PRENOM LIKE ? OR temp.EMAIL LIKE ? OR temp.TELEPHONE LIKE ? OR temp.DATE_NAISSANCE LIKE ? OR temp.DATE_RENDEVOUS LIKE ?)";
+      sqlQuery += " AND ( requ.REQUERANT_NOM LIKE ? OR requ.REQUERANT_PRENOM LIKE ? OR requ.TELEPHONE LIKE ? OR requ.EMAIL LIKE ? OR requ.DATE_NAISSANCE LIKE ? OR requ.AGE LIKE ?)";
       binds.push(`%${q}%`, `%${q}%`, `%${q}%`, `%${q}%`, `%${q}%`, `%${q}%`);
     }
-    sqlQuery += " ORDER BY hist.DATE DESC ";
+    sqlQuery += " ORDER BY track.DATE_INSERTION DESC ";
     sqlQuery += `LIMIT ${offset}, ${limit}`;
     return query(sqlQuery, binds);
   }
   catch (error) {
     throw error
   }
-
-
 }
 const findByIdC = async (column, value) => {
   try {
