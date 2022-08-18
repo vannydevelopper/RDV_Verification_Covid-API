@@ -5,16 +5,13 @@ const findByIdrequerant = async (req, res) =>{
 
     try {
         const {cq_id} =req.query;
-        //var date_rendez_vous=(await verificationModel.findDateRendevous(cq_id))[0]
-
-      // var id_rendez_vous=(await verificationModel.findhistorique(parseInt(cq_id)))[0]
-        //var id_rendez_vous=(await verificationModel.findhistorique(cq_id))[0]
+       
         var id_tempo_requerant=(await verificationModel.findInRequerant(cq_id))[0]
         if(id_tempo_requerant){
             return res.status(422).json(
                 {
                     success: false,
-                    message: "Requérant est déjà confirmé",
+                    message: "Rendez vous  déjà Scanne",
                     type: "CONFIRME"   
                 })
         }
