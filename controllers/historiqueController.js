@@ -76,7 +76,13 @@ const createhistorique = async (req, res) => {
 
         if (validation.isValidate()) {
             if(TEMPO_REQUERANT_ID){
-                var idCheck = (await historiqueModel.findByIdCheck(TEMPO_REQUERANT_ID))[0]
+                var idCheck = (await historiqueModel.findByIdCheck(TEMPO_REQUERANT_ID))[0] 
+                // if(idCheck.PROVENANCE = 2){
+                //     await query ("INSERT INTO requerant (POINT_ENTREE_ID) VALUES(?)",[20])
+                //     console.log(query)
+                // }else{
+                    
+                // }
             }
             //console.log(idCheck)
 
@@ -102,6 +108,7 @@ const createhistorique = async (req, res) => {
                 EST_VOYAGEUR=1,
                 idCheck.PROVENANCE_PAYS_ID,
                 idCheck.HOTEL_ID,
+                // pointEntre || Entrer_id,
                 idCheck.PROVENANCE,
                 REQUERANT_STATUT_ID=3,
                 idCheck.VOL_ID,
@@ -131,8 +138,8 @@ const createhistorique = async (req, res) => {
                 STATUT=1
             );
 
-            await query ("update tempo_requerant SET TRAITE=1, USER_ID= ?, DATE_TRAITEMENT=? WHERE TEMPO_REQUERANT_ID=?",[
-                req.userId, TRAITE=1, moment().format('YYYY/MM/DD HH:mm:ss'), TEMPO_REQUERANT_ID
+            await query ("update tempo_requerant SET TRAITE=?, USER_ID= ?, DATE_TRAITEMENT=? WHERE TEMPO_REQUERANT_ID=?",[
+                1, req.userId, moment().format('YYYY/MM/DD HH:mm:ss'), TEMPO_REQUERANT_ID
             ])
 
             const historique = (await historiqueModel.findById(insertId))[0]
