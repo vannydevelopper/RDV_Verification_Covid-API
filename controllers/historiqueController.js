@@ -132,7 +132,7 @@ const createhistorique = async (req, res) => {
             );
 
             await query ("update tempo_requerant SET TRAITE=1, USER_ID= ?, DATE_TRAITEMENT=? WHERE TEMPO_REQUERANT_ID=?",[
-                req.userId, TRAITE, moment().format('YYYY/MM/DD HH:mm:ss'), TEMPO_REQUERANT_ID
+                req.userId, TRAITE=1, moment().format('YYYY/MM/DD HH:mm:ss'), TEMPO_REQUERANT_ID
             ])
 
             const historique = (await historiqueModel.findById(insertId))[0]

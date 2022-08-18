@@ -42,9 +42,23 @@ const findhistorique = async (cq_id) => {
 
 }
 
+const findInRequerant = async (cq_id) => {
+  var sqlQuery = 'SELECT 	TEMPO_REQUERANT_ID FROM requerant WHERE 1 '
+    if(cq_id.length > 10){
+      sqlQuery += ` AND md5(TEMPO_REQUERANT_ID) = ? `
+    }else{
+      sqlQuery += ` AND TEMPO_REQUERANT_ID = ? `
+    } 
+  return query(sqlQuery, [cq_id])
+
+}
+
+
+
 module.exports = {
   findByIdC,
   findPayement,
   findhistorique,
+  findInRequerant
   
 }
