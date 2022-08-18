@@ -11,7 +11,7 @@ const findByIdrequerant = async (req, res) =>{
             return res.status(422).json(
                 {
                     success: false,
-                    message: "Rendez vous  déjà Scanne",
+                    message: "Rendez-vous  déjà scanné",
                     type: "CONFIRME"   
                 })
         }
