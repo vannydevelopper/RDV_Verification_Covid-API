@@ -23,8 +23,7 @@ const createhistorique = async (req, res) => {
             });
         }
         else {
-            // let PHOTO_BRD = req.files.PHOTO_BRD;
-            //console.log(req.files.PHOTO_BRD)
+           
             if (PHOTO_BRD) {
                 PHOTO_BRD.mv('./public/images/photo_brd/' + PHOTO_BRD.name, async function (err) {
                     if (err) {
@@ -36,8 +35,7 @@ const createhistorique = async (req, res) => {
                 });
             }
 
-            // let PHOTO_PRS = req.files.PHOTO_PRS;
-            //console.log(req.files.PHOTO_PRS)
+           
 
                 PHOTO_PRS.mv('./public/images/photo_prs/' + PHOTO_PRS.name, async function (err) {
                     if (err) {
@@ -139,7 +137,7 @@ const createhistorique = async (req, res) => {
                 success: true,
                 message: "enregistrement reussi avec succes"
             })
-            //console.log(req.userId)
+           
 
         }
         else {
