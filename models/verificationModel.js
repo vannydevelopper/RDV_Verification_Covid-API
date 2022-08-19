@@ -43,7 +43,7 @@ const findhistorique = async (cq_id) => {
 }
 
 const findInRequerant = async (cq_id) => {
-  var sqlQuery = 'SELECT 	TEMPO_REQUERANT_ID FROM requerant WHERE 1 '
+  var sqlQuery = 'SELECT * FROM tempo_requerant WHERE TRAITE=1 '
     if(cq_id.length > 10){
       sqlQuery += ` AND md5(TEMPO_REQUERANT_ID) = ? `
     }else{
