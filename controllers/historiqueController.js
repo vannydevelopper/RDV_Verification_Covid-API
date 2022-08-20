@@ -73,7 +73,7 @@ const createhistorique = async (req, res) => {
         validation.run()
 
         if (validation.isValidate()) {
-            var idCheck = (await historiqueModel.findByIdCheck(TEMPO_REQUERANT_ID))[0]
+            var idCheck =(await historiqueModel.findByIdCheck(TEMPO_REQUERANT_ID))[0]
             const pointEntre = idCheck.PROVENANCE == 2 ? 20 : null
              const age = moment().get("year") - moment(idCheck.DATE_NAISSANCE).get("year")
             const { insertId } = await historiqueModel.createOneRequerant(
@@ -164,10 +164,10 @@ const createhistorique = async (req, res) => {
         res.status(500).send("server error")
     }
 }
-const findByIdrequerant = async (req, res) => {
+const findByIdrequerant = async (req, res) =>{
 
     try {
-        const { cq_id } = req.query;
+        const { cq_id }= req.query;
 
         var requerantRDV = (await historiqueModel.findByIdC("TEMPO_REQUERANT_ID", cq_id))[0];
         if (requerantRDV) {
@@ -203,7 +203,7 @@ const findAll = async (req, res) => {
         res.status(200).json(historique)
 
     }
-    catch (error) {
+    catch (error){
         console.log(error)
         res.status(500).send("server error")
     }

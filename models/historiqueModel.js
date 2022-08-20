@@ -25,7 +25,7 @@ const createLaboratoire = async (	STRUCTURE_ID, REQUERANT_ID, STATUT ) => {
   try {
     var sqlQuery = "INSERT INTO requerant_laboratoire(STRUCTURE_ID,REQUERANT_ID,STATUT)";
     sqlQuery += "VALUES(?,?,?)"
-    return query(sqlQuery, [
+    return query(sqlQuery,[
       STRUCTURE_ID,
       REQUERANT_ID,
       STATUT
