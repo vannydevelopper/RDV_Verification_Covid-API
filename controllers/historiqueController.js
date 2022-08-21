@@ -4,7 +4,7 @@ const path = require("path");
 const moment = require("moment");
 const { query } = require("../function/db");
 
-const createhistorique = async (req, res) => {
+const createhistorique = async (req, res) =>{
 
     try {
         const
