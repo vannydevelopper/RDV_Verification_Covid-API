@@ -16,6 +16,32 @@ const findByIdC = async (value) => {
         }
 
 }
+const findStatut= async  (column, value) => {
+  try {
+    
+      var sqlQuery=`SELECT t.TRAITE FROM tempo_requerant t WHERE  ${column}= ?`
+      return query(sqlQuery, [value]);
+      
+  }
+  catch (error) {
+      console.log(error)
+      throw error
+  }
+
+}
+const findStatut_requerant= async  (column, value) =>{
+  try {
+    
+      var sqlQuery=`SELECT REQUERANT_STATUT_ID FROM requerant WHERE  ${column}= ?`
+      return query(sqlQuery, [value]);
+      
+  }
+  catch (error) {
+      console.log(error)
+      throw error
+  }
+
+}
 const findPayement = async (RDV_ID) =>{
         try {
 
@@ -59,6 +85,8 @@ module.exports = {
       findByIdC,
       findPayement,
       findhistorique,
-      findInRequerant
+      findInRequerant,
+      findStatut,
+      findStatut_requerant
 
 }
