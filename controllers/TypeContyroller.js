@@ -2,7 +2,8 @@ const typeModel = require("../models/typeModel");
 
 const findType = async (req, res) => {
     try {
-        const type = await typeModel.findTest()
+        const {METHODE_TEST_ID}=req.params
+        const type = await typeModel.findTest(METHODE_TEST_ID)
         res.status(200).json(type)
 
     }

@@ -1,8 +1,8 @@
 const {query}=require("../function/db");
-const findTest=async()=>{
+const findTest=async(METHODE_TEST_ID)=>{
     try{
 
-        return query(" SELECT TYPE_TEST_ID,DESCRIPTION FROM labo_type_tests WHERE 1");
+        return query("SELECT * FROM labo_type_tests WHERE 1 AND METHODE_TEST_ID=?",[METHODE_TEST_ID]);
     }
     catch(error)
     {
