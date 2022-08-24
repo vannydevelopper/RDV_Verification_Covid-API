@@ -11,7 +11,7 @@ const findResultat = async (req, res) => {
         res.status(500).send("server error")
     }
 }
-module.exports = 
+module.exports =
 {
     findResultat
 }

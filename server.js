@@ -10,7 +10,8 @@ const TestRouter=require("./routes/TestRouter")
 const echantillonRouter=require("./routes/echantillonRouter")
 const resultatRouter=require("./routes/resultatRouter")
  const TypeRouter=require("./routes/TypeRouter")
-
+ const ResultatsRouter=require("./routes/ResultatsTestsRouter")
+ 
 const app = express();
 const bindUser = require("./middleware/bindUser")
 
@@ -30,6 +31,7 @@ app.use("/test",TestRouter)
 app.use("/echantillon",echantillonRouter)
 app.use("/resultat",resultatRouter)
 app.use("/type",TypeRouter)
+ app.use("/resultats",ResultatsRouter)
 const port = process.env.PORT || 8000;
 
 app.listen(port, async () => {
