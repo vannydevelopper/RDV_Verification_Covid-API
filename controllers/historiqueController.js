@@ -122,7 +122,7 @@ const createhistorique = async (req, res) =>{
             );
             
             //insertion dans la table requerant laboratoire
-            const {idLaboratoire} = await historiqueModel.createLaboratoire(
+            const {idLaboratoire} =await historiqueModel.createLaboratoire(
                 idCheck.STRUCTURE_ID,
                 insertId,
                 STATUT=1

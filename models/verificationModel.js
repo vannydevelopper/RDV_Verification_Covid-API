@@ -42,6 +42,20 @@ const findStatut_requerant= async  (column, value) =>{
   }
 
 }
+const find_Requerant_statut_Id= async  (column, value) =>{
+  try{
+    
+      var sqlQuery=`SELECT REQUERANT_STATUT_ID,EST_GENERE FROM requerant WHERE   ${column}= ?`
+      return query(sqlQuery, [value]);
+      
+  }
+  catch (error) {
+      console.log(error)
+      throw error
+  }
+
+}
+
 const findPayement = async (RDV_ID) =>{
         try {
 
@@ -87,6 +101,7 @@ module.exports = {
       findhistorique,
       findInRequerant,
       findStatut,
-      findStatut_requerant
+      findStatut_requerant,
+      find_Requerant_statut_Id
 
 }

@@ -3,7 +3,7 @@ const EchantillonModel = require("../models/EchantillonModel");
 const ResultatModel = require("../models/ResultatModel");
 
 const findEchantillon = async (req, res) => {
-    try {
+    try{
         const{METHODE_TEST_ID}=req.params
         const echantillon = await EchantillonModel.findType(METHODE_TEST_ID)
         res.status(200).json(echantillon)
