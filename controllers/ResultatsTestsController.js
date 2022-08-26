@@ -33,7 +33,7 @@ const CreateResultats = async (req, res) => {
                 requerant_labo.REQU_LABO_ID,
                 req.userId
             );
-            const { id_statut_changement } = await ResultatsTestsModels.requerant_changement_statut(
+            const {id_statut_changement } = await ResultatsTestsModels.requerant_changement_statut(
 
                 REQUERANT_STATUT_ID,
                 REQUERANT_ID,

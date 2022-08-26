@@ -2,7 +2,7 @@ const { query } = require("../function/db");
 const findByIdC = async (value) => {
         try {
 
-          var sqlQuery = `SELECT tempo.TEMPO_REQUERANT_ID, tempo.NOM, tempo.PRENOM ,tempo.TELEPHONE, tempo.DATE_NAISSANCE ,tempo.DATE_RENDEVOUS, tempo.EMAIL, tempo.LIEU_DE_NAISSANCE, tempo.ADRESSE_RESIDENCE, tempo.AEROPORT_EMBARQUEMA, tempo.DATE_INSERTION, vl_voyageur_documents.DOCUMENT_DESCR, countries.CommonName, requerant.DATE_PRELEVEMENT FROM tempo_requerant tempo LEFT JOIN vl_voyageur_documents ON vl_voyageur_documents.DOCUMENT_ID=tempo.DOCUMENT_ID LEFT JOIN countries ON countries.COUNTRY_ID=tempo.NATIONALITE_ID LEFT JOIN requerant ON requerant.TEMPO_REQUERANT_ID=tempo.TEMPO_REQUERANT_ID`;
+          var sqlQuery = `SELECT tempo.TEMPO_REQUERANT_ID, tempo.NOM, tempo.PRENOM ,tempo.TELEPHONE, tempo.DATE_NAISSANCE ,tempo.DATE_RENDEVOUS, tempo.EMAIL,tempo.NUMERO_DOCUMENT,tempo.LIEU_DE_NAISSANCE, tempo.ADRESSE_RESIDENCE, tempo.AEROPORT_EMBARQUEMA, tempo.DATE_INSERTION, vl_voyageur_documents.DOCUMENT_DESCR, countries.CommonName, requerant.DATE_PRELEVEMENT FROM tempo_requerant tempo LEFT JOIN vl_voyageur_documents ON vl_voyageur_documents.DOCUMENT_ID=tempo.DOCUMENT_ID LEFT JOIN countries ON countries.COUNTRY_ID=tempo.NATIONALITE_ID LEFT JOIN requerant ON requerant.TEMPO_REQUERANT_ID=tempo.TEMPO_REQUERANT_ID`;
           if (value.length > 10) {
             sqlQuery += ` WHERE md5(tempo.TEMPO_REQUERANT_ID)=? `
           } else {
