@@ -169,7 +169,7 @@ const findByIdrequerant = async (req, res) =>{
     try {
         const { cq_id }= req.query;
 
-        var requerantRDV = (await historiqueModel.findByIdC("TEMPO_REQUERANT_ID", cq_id))[0];
+        var requerantRDV =(await historiqueModel.findByIdC("TEMPO_REQUERANT_ID", cq_id))[0];
         if (requerantRDV) {
             res.status(200).json
                 ({

@@ -56,29 +56,29 @@ const find_Requerant_statut_Id= async  (column, value) =>{
 
 }
 
-const findPayement = async (RDV_ID) =>{
+const findPayement = async (cq_id) =>{
         try {
 
           var sqlQuery = `SELECT EMAIL_PAYE,MONTANT,DATE_INSERT_PAYEMENT,COMPTE_SIBLE,CARTE_TYPE,DEVISE FROM rdv_payement LEFT JOIN  tempo_requerant t ON t.RDV_ID=rdv_payement.RDV_ID  WHERE 1`;
-          if (RDV_ID.length > 10) {
+          if (cq_id.length > 10) {
             sqlQuery += ` AND md5(TEMPO_REQUERANT_ID) = ? `
           } else {
             sqlQuery += ` AND TEMPO_REQUERANT_ID = ? `
           }
-          return query(sqlQuery, [RDV_ID]);
+          return query(sqlQuery, [cq_id]);
         }
         catch (error) {
           throw error
         }
 }
-const findhistorique = async (cq_id) => {
+const findhistorique = async (RDV_ID) => {
         var sqlQuery = 'SELECT ID_RDV FROM historique WHERE 1 '
         if (cq_id.length > 10) {
           sqlQuery += ` AND md5(ID_RDV) = ? `
         } else {
           sqlQuery += ` AND ID_RDV = ? `
         }
-        return query(sqlQuery, [cq_id])
+        return query(sqlQuery, [RDV_ID])
 
 }
 

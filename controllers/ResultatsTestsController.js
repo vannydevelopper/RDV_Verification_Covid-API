@@ -20,7 +20,7 @@ const CreateResultats = async (req, res) => {
             const requerant = (await query("SELECT REQUERANT_ID FROM requerant WHERE TEMPO_REQUERANT_ID=?", [TEMPO_REQUERANT_ID]))[0]
 
             var REQUERANT_ID = requerant.REQUERANT_ID
-            console.log(requerant)
+            //console.log(requerant)
             var requerant_labo = (await ResultatsTestsModels.findByrequerant_labo(REQUERANT_ID))[0]
 
             const { insertId } = await ResultatsTestsModels.CreateResultats(
@@ -33,7 +33,7 @@ const CreateResultats = async (req, res) => {
                 requerant_labo.REQU_LABO_ID,
                 req.userId
             );
-            const {id_statut_changement } = await ResultatsTestsModels.requerant_changement_statut(
+            const { id_statut_changement } = await ResultatsTestsModels.requerant_changement_statut(
 
                 REQUERANT_STATUT_ID,
                 REQUERANT_ID,
