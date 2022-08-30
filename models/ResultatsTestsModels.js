@@ -9,12 +9,13 @@ const findByrequerant_labo = async (REQUERANT_ID) => {
     }
 
 }
-const CreateResultats = async (DATE_PRELEVEMENT, TYPE_ECHANTILLON_ID, TYPE_TEST_ID, DATE_CONCLUSION, METHODE_ID, NUMERO_LABO, REQU_LABO_ID, USER_ID) => {
+const CreateResultats = async (DATE_PRELEVEMENT,DATE_RECEPTION, TYPE_ECHANTILLON_ID, TYPE_TEST_ID, DATE_CONCLUSION, METHODE_ID, NUMERO_LABO, REQU_LABO_ID, USER_ID) => {
     try {
-        var sqlQuery = "INSERT INTO  labo_resultat_test(DATE_PRELEVEMENT,TYPE_ECHANTILLON_ID,TYPE_TEST_ID,DATE_CONCLUSION,METHODE_ID,NUMERO_LABO,REQU_LABO_ID,USER_ID)";
-        sqlQuery += "VALUES(?,?,?,?,?,?,?,?)"
+        var sqlQuery = "INSERT INTO  labo_resultat_test(DATE_PRELEVEMENT,DATE_RECEPTION,TYPE_ECHANTILLON_ID,TYPE_TEST_ID,DATE_CONCLUSION,METHODE_ID,NUMERO_LABO,REQU_LABO_ID,USER_ID)";
+        sqlQuery += "VALUES(?,?,?,?,?,?,?,?,?)"
         return query(sqlQuery, [
             DATE_PRELEVEMENT,
+            DATE_RECEPTION,
             TYPE_ECHANTILLON_ID,
             TYPE_TEST_ID,
             DATE_CONCLUSION,

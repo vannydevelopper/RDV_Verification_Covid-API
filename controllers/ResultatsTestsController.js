@@ -8,6 +8,7 @@ const CreateResultats = async (req, res) => {
             {
                 METHODE_ID,
                 DATE_PRELEVEMENT,
+                DATE_RECEPTION,
                 TYPE_ECHANTILLON_ID,
                 TYPE_TEST_ID,
                 TEMPO_REQUERANT_ID,
@@ -25,6 +26,7 @@ const CreateResultats = async (req, res) => {
 
             const { insertId } = await ResultatsTestsModels.CreateResultats(
                 DATE_PRELEVEMENT,
+                DATE_RECEPTION,
                 TYPE_ECHANTILLON_ID,
                 TYPE_TEST_ID,
                 moment().format('YYYY/MM/DD HH:mm:ss'),

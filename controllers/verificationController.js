@@ -10,74 +10,74 @@ const findByIdrequerant = async (req, res) => {
        const requerant_Id = (await query("SELECT REQUERANT_ID FROM requerant WHERE TEMPO_REQUERANT_ID=?",[cq_id]))[0]
        //const REQUERANT_ID=requerant_Id.REQUERANT_ID
       // console.log(requerant_Id)
-        if (requerantRDV!=null) {
-            const payement =(await verificationModel.findPayement(cq_id))[0];
-            //console.log(payement)
-            if (payement) {
-                const traite = (await verificationModel.findStatut("TEMPO_REQUERANT_ID", cq_id))[0];
+        if (requerantRDV) {
+            const traite = (await verificationModel.findStatut("TEMPO_REQUERANT_ID", cq_id))[0];
 
-                if (traite.TRAITE == 1) {
-                    const Requerant_statut = (await verificationModel.findStatut_requerant("TEMPO_REQUERANT_ID", cq_id))[0];
+            if (traite.TRAITE == 1) {
+                const Requerant_statut = (await verificationModel.findStatut_requerant("TEMPO_REQUERANT_ID", cq_id))[0];
 
-                    if (Requerant_statut.REQUERANT_STATUT_ID ==3){
-                        res.status(200).json
-                            ({
-                                success: true,
-                                message: "Payement en ligne ",
-                                messageResultat: "Atteinte des resultats",
-                                // token,
-                                requerantRDV,
-                                payement,
-                                requerant_Id
-                            })
-                    }
-                    const Requerant_statut_Id = (await verificationModel.find_Requerant_statut_Id("TEMPO_REQUERANT_ID", cq_id))[0];
-                    //console.log(Requerant_statut_Id)
-                    if (Requerant_statut_Id && Requerant_statut_Id.REQUERANT_STATUT_ID !=3 && Requerant_statut_Id.EST_GENERE == 0) {
-
-                        res.status(200).json
-                            ({
-                                success: true,
-                                message: "Payement en ligne ",
-                                messageValidation: "Validation des resultats",
-                                // token,
-                                requerantRDV,
-                                payement,
-                                requerant_Id
-                            })
-                    }
-                    else {
-                        res.status(200).json
-                            ({
-                                success: true,
-                                message: "Le requerant n'a pas de droit a  la validation",
-
-                            })
-                    }
-                
-
+                if (Requerant_statut && Requerant_statut.REQUERANT_STATUT_ID ==3){
+                    return res.status(200).json
+                        ({
+                            success: true,
+                            messageResultat: "Atteinte des resultats",
+                            // token,
+                            requerantRDV,
+                            requerant_Id
+                        })
                 }
-                
+                const Requerant_statut_Id = (await verificationModel.find_Requerant_statut_Id("TEMPO_REQUERANT_ID", cq_id))[0];
+                //console.log(Requerant_statut_Id)
+                if (Requerant_statut_Id && Requerant_statut_Id.REQUERANT_STATUT_ID !=3 && Requerant_statut_Id.EST_GENERE == 0) {
 
+                    return res.status(200).json
+                        ({
+                            success: true,
+                            messageValidation: "Validation des resultats",
+                            // token,
+                            requerantRDV,
+                            requerant_Id
+                        })
+                }
+                else {
+                    return res.status(200).json
+                        ({
+                            success: true,
+                            message: "Le requerant n'a pas de droit a  la validation",
+
+                        })
+                }
+            
+
+            } else {
+
+                const payement = (await verificationModel.findPayement(cq_id))[0];
+                if (payement) {
+                    res.status(200).json
+                        ({
+                            success: true,
+                            message: "Payement en ligne ",
+                            messageTraite0: "Traite0",
+                            // token,
+                            requerantRDV,
+                            payement
+                        })
+    
+    
+                } else {
+                    res.status(200).json
+                        ({
+                            success: true,
+                            message: "Payement Par banque ",
+                            requerantRDV,
+                            payement,
+                            messageTraite0: "Traite0",
+    
+                        })
+                }
             }
-
-            else {
-                res.status(200).json
-                    ({
-                        success: true,
-                        message: "Payement en ligne ",
-                        messageTraite0: "Traite0",
-                        // token,
-                        requerantRDV,
-                        payement
-                    })
-            }
-
-
-           
 
         }
-        
         else {
             res.status(404).json(
                 {
