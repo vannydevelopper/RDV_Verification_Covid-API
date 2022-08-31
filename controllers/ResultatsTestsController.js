@@ -11,9 +11,13 @@ const CreateResultats = async (req, res) => {
                 DATE_RECEPTION,
                 TYPE_ECHANTILLON_ID,
                 TYPE_TEST_ID,
+                RESULTAT_ID,
                 TEMPO_REQUERANT_ID,
                 COMMENT,
-                REQUERANT_STATUT_ID
+                CONCLUSION,
+                REQUERANT_STATUT_ID,
+                LATITUDE,
+                LONGITUDE,
             } = req.body
         const validation = new Validation(req.body)
         validation.run()
@@ -29,9 +33,14 @@ const CreateResultats = async (req, res) => {
                 DATE_RECEPTION,
                 TYPE_ECHANTILLON_ID,
                 TYPE_TEST_ID,
+                RESULTAT_ID,
+                CONCLUSION,
                 moment().format('YYYY/MM/DD HH:mm:ss'),
                 METHODE_ID,
+                REQUERANT_ID,
+
                 1,
+               
                 requerant_labo.REQU_LABO_ID,
                 req.userId
             );
@@ -42,6 +51,18 @@ const CreateResultats = async (req, res) => {
                 req.userId,
                 moment().format('YYYY/MM/DD HH:mm:ss'),
                 COMMENT
+
+
+            );
+            const { id_tracking } = await ResultatsTestsModels.createTracking(
+
+                REQUERANT_ID,
+                LONGITUDE,
+                LATITUDE,
+                3,
+                req.userId,
+                moment().format('YYYY/MM/DD HH:mm:ss'),
+
 
 
             );

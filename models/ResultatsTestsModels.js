@@ -9,18 +9,22 @@ const findByrequerant_labo = async (REQUERANT_ID) => {
     }
 
 }
-const CreateResultats = async (DATE_PRELEVEMENT,DATE_RECEPTION, TYPE_ECHANTILLON_ID, TYPE_TEST_ID, DATE_CONCLUSION, METHODE_ID, NUMERO_LABO, REQU_LABO_ID, USER_ID) => {
+const CreateResultats = async (DATE_PRELEVEMENT,DATE_RECEPTION, TYPE_ECHANTILLON_ID, TYPE_TEST_ID,RESULTAT_ID,CONCLUSION, DATE_CONCLUSION, METHODE_ID,REQUERANT_ID, NUMERO_LABO, REQU_LABO_ID, USER_ID) => {
     try {
-        var sqlQuery = "INSERT INTO  labo_resultat_test(DATE_PRELEVEMENT,DATE_RECEPTION,TYPE_ECHANTILLON_ID,TYPE_TEST_ID,DATE_CONCLUSION,METHODE_ID,NUMERO_LABO,REQU_LABO_ID,USER_ID)";
-        sqlQuery += "VALUES(?,?,?,?,?,?,?,?,?)"
+        var sqlQuery = "INSERT INTO  labo_resultat_test(DATE_PRELEVEMENT,DATE_RECEPTION,TYPE_ECHANTILLON_ID,TYPE_TEST_ID,RESULTAT_ID,CONCLUSION,DATE_CONCLUSION,METHODE_ID,REQUERANT_ID,NUMERO_LABO,REQU_LABO_ID,USER_ID)";
+        sqlQuery += "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)"
         return query(sqlQuery, [
             DATE_PRELEVEMENT,
             DATE_RECEPTION,
             TYPE_ECHANTILLON_ID,
             TYPE_TEST_ID,
+            RESULTAT_ID,
+            CONCLUSION,
             DATE_CONCLUSION,
             METHODE_ID,
-            NUMERO_LABO, REQU_LABO_ID,
+            REQUERANT_ID,
+            NUMERO_LABO, 
+            REQU_LABO_ID,
             USER_ID
 
         ]);
@@ -47,9 +51,30 @@ const requerant_changement_statut = async (REQUERANT_STATUT_ID, REQUERANT_ID, US
         res.status(500).send("server error")
     }
 }
+  const createTracking  = async (REQUERANT_ID,LONGITUDE,LATITUDE,ETAPE,USER_ID,DATE_INSERTION) => {
+    try {
+        var sqlQuery = "INSERT INTO requerant_tracking_gps (REQUERANT_ID,LONGITUDE,LATITUDE,ETAPE,USER_ID,DATE_INSERTION)";
+        sqlQuery += "VALUES(?,?,?,?,?,?)"
+        return query(sqlQuery, [
+            REQUERANT_ID,
+            LONGITUDE,
+            LATITUDE,
+            ETAPE,
+            USER_ID,
+            DATE_INSERTION
+        ]);
+
+    }
+    catch (error) {
+        console.log(error)
+        res.status(500).send("server error")
+    }
+}
+
 
 module.exports = {
     findByrequerant_labo,
     CreateResultats,
-    requerant_changement_statut
+    requerant_changement_statut,
+    createTracking
 }
