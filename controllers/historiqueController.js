@@ -16,6 +16,12 @@ const createhistorique = async (req, res) =>{
 
         var PHOTO_BRD = req.files?.PHOTO_BRD;
         var PHOTO_PRS = req.files?.PHOTO_PRS;
+        if(PHOTO_BRD){
+
+            var fileNamebrd = `${Date.now()}${path.extname(PHOTO_BRD.name)}`;
+        }
+        
+        const fileNameprs = `${Date.now()}${path.extname(PHOTO_PRS.name)}`;
         if (!req.files) {
             res.send({
                 status: false,
@@ -25,7 +31,8 @@ const createhistorique = async (req, res) =>{
         else {
            
             if (PHOTO_BRD) {
-                PHOTO_BRD.mv('./public/images/photo_brd/' + PHOTO_BRD.name, async function (err) {
+                
+                PHOTO_BRD.mv('./public/images/photo_brd/' + fileNamebrd, async function (err) {
                     if (err) {
                         console.log(err)
                         return res.status(422).json({
@@ -37,7 +44,7 @@ const createhistorique = async (req, res) =>{
 
            
 
-                PHOTO_PRS.mv('./public/images/photo_prs/' + PHOTO_PRS.name, async function (err) {
+                PHOTO_PRS.mv('./public/images/photo_prs/' + fileNameprs, async function (err) {
                     if (err) {
                         console.log(err)
                         return res.status(422).json({
@@ -116,8 +123,8 @@ const createhistorique = async (req, res) =>{
                 ETAPE=1,
                 req.userId,
 
-                PHOTO_BRD ? `${req.protocol}://${req.get("host")}/images/photo_brd/${PHOTO_BRD.name}` :null,
-                 `${req.protocol}://${req.get("host")}/images/photo_prs/${PHOTO_PRS.name}`,// IMAGE.name
+                PHOTO_BRD ? `${req.protocol}://${req.get("host")}/images/photo_brd/${fileNamebrd}` :null,
+                 `${req.protocol}://${req.get("host")}/images/photo_prs/${fileNameprs}`,// IMAGE.name
 
             );
             
