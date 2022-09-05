@@ -4,220 +4,222 @@ const path = require("path");
 const moment = require("moment");
 const { query } = require("../function/db");
 
-const createhistorique = async (req, res) =>{
+const isProd =false
+const createhistorique = async (req, res) => {
 
-    try {
-        const
-            {
-                TEMPO_REQUERANT_ID,
-                LONGITUDE,
-                LATITUDE
-            } = req.body
+          try {
+                    const
+                              {
+                                        TEMPO_REQUERANT_ID,
+                                        LONGITUDE,
+                                        LATITUDE
+                              } = req.body
 
-        var PHOTO_BRD = req.files?.PHOTO_BRD;
-        var PHOTO_PRS = req.files?.PHOTO_PRS;
-        if(PHOTO_BRD){
+                    var PHOTO_BRD = req.files?.PHOTO_BRD;
+                    var PHOTO_PRS = req.files?.PHOTO_PRS;
+                    if (PHOTO_BRD) {
 
-            var fileNamebrd = `${Date.now()}${path.extname(PHOTO_BRD.name)}`;
-        }
-        
-        const fileNameprs = `${Date.now()}${path.extname(PHOTO_PRS.name)}`;
-        if (!req.files) {
-            res.send({
-                status: false,
-                message: 'No file uploaded'
-            });
-        }
-        else {
-           
-            if (PHOTO_BRD) {
-                
-                PHOTO_BRD.mv('./public/images/photo_brd/' + fileNamebrd, async function (err) {
-                    if (err) {
-                        console.log(err)
-                        return res.status(422).json({
-                            message: "Image non ajoute"
-                        })
+                              var fileNamebrd = `${Date.now()}${path.extname(PHOTO_BRD.name)}`;
                     }
-                });
-            }
 
-           
-
-                PHOTO_PRS.mv('./public/images/photo_prs/' + fileNameprs, async function (err) {
-                    if (err) {
-                        console.log(err)
-                        return res.status(422).json({
-                            message: "Image non ajoute"
-                        })
+                    const fileNameprs = `${Date.now()}${path.extname(PHOTO_PRS.name)}`;
+                    if (!req.files) {
+                              res.send({
+                                        status: false,
+                                        message: 'No file uploaded'
+                              });
                     }
-                });
-        
-        }
-        const validation = new Validation(req.body,
-            {
+                    else {
 
-                IMAGES:
-                {
-                    image: 20480
-                },
+                              if (PHOTO_BRD) {
+                                        const destination = isProd ? (path.dirname(path.resolve("./")) + path.sep +"uploads" + path.sep + "image_bordereau" + path.sep) : './public/images/photo_brd/'
+                                        PHOTO_BRD.mv(`${destination}${fileNamebrd}`, async function (err) {
+                                                  if (err) {
+                                                            console.log(err)
+                                                            return res.status(422).json({
+                                                                      message: "Image non ajoute"
+                                                            })
+                                                  }
+                                        });
+                              }
 
-            },
-            {
-                LONGITUDE:
-                {
-                    required: "Longitude  est obligatoire",
-                    length: "Longitude invalide",
-                },
-                LATITUDE:
-                {
-                    required: "Latitude  est obligatoire",
-                    length: "Latitude invalide",
-                }
-            }
-        )
 
-        validation.run()
+                              
+                              const destination = isProd ? (path.dirname(path.resolve("./")) + path.sep +"uploads" + path.sep + "image_candidat" + path.sep) : './public/images/photo_prs/'
+                              PHOTO_PRS.mv(`${destination}${fileNameprs}`, async function (err) {
+                                        if (err) {
+                                                  console.log(err)
+                                                  return res.status(422).json({
+                                                            message: "Image non ajoute"
+                                                  })
+                                        }
+                              });
 
-        if (validation.isValidate()) {
-            var idCheck =(await historiqueModel.findByIdCheck(TEMPO_REQUERANT_ID))[0]
-            const pointEntre = idCheck.PROVENANCE == 2 ? 20 : null
-             const age = moment().get("year") - moment(idCheck.DATE_NAISSANCE).get("year")
-            const { insertId } = await historiqueModel.createOneRequerant(
-                idCheck.NOM,
-                idCheck.PRENOM,
-                idCheck.EMAIL,
-                idCheck.TELEPHONE,
-                idCheck.PROVINCE_ID_RESIDENCE,
-                idCheck.COMMUNE_ID_RESIDENCE,
-                idCheck.ZONE_ID_RESIDENCE,
-                idCheck.COLLINE_ID_RESIDENCE,
-                idCheck.DISTRICT_ID,
-                idCheck.NATIONALITE_ID,
-                moment().format('YYYY/MM/DD HH:mm:ss'),
-                idCheck.NUMERO_DOCUMENT,
-                idCheck.STRUCTURE_ID,
-                idCheck.DATE_NAISSANCE,
-                age,
-                idCheck.DOCUMENT_ID,
-                idCheck.GENRE_ID,
-                EST_VOYAGEUR=1,
-                idCheck.PROVENANCE_PAYS_ID,
-                idCheck.HOTEL_ID,
-                pointEntre,
-                idCheck.PROVENANCE,
-                REQUERANT_STATUT_ID=3,
-                idCheck.VOL_ID,
-                moment().format('YYYY/MM/DD HH:mm:ss'),
-                idCheck.TEMPO_REQUERANT_ID,
-                idCheck.AUTRE_DESTINATION ?  idCheck.AUTRE_DESTINATION : idCheck.AUTRE_HOTEL,
-                idCheck.REQUERANT_LANGUE_CERTIFICAT,
+                    }
+                    const validation = new Validation(req.body,
+                              {
 
-            );
+                                        IMAGES:
+                                        {
+                                                  image: 20480
+                                        },
 
-            //insertion dans la table requerant trakings
-            const { IdTraking } = await historiqueModel.createOne(
-                insertId,
-                LONGITUDE,
-                LATITUDE,
-                ETAPE=1,
-                req.userId,
+                              },
+                              {
+                                        LONGITUDE:
+                                        {
+                                                  required: "Longitude  est obligatoire",
+                                                  length: "Longitude invalide",
+                                        },
+                                        LATITUDE:
+                                        {
+                                                  required: "Latitude  est obligatoire",
+                                                  length: "Latitude invalide",
+                                        }
+                              }
+                    )
 
-                PHOTO_BRD ? `${req.protocol}://${req.get("host")}/images/photo_brd/${fileNamebrd}` :null,
-                 `${req.protocol}://${req.get("host")}/images/photo_prs/${fileNameprs}`,// IMAGE.name
+                    validation.run()
 
-            );
-            
-            //insertion dans la table requerant laboratoire
-            const {idLaboratoire} =await historiqueModel.createLaboratoire(
-                idCheck.STRUCTURE_ID,
-                insertId,
-                STATUT=1
-            );
+                    if (validation.isValidate()) {
+                              var idCheck = (await historiqueModel.findByIdCheck(TEMPO_REQUERANT_ID))[0]
+                              const pointEntre = idCheck.PROVENANCE == 2 ? 20 : null
+                              const age = moment().get("year") - moment(idCheck.DATE_NAISSANCE).get("year")
+                              const { insertId } = await historiqueModel.createOneRequerant(
+                                        idCheck.NOM,
+                                        idCheck.PRENOM,
+                                        idCheck.EMAIL,
+                                        idCheck.TELEPHONE,
+                                        idCheck.PROVINCE_ID_RESIDENCE,
+                                        idCheck.COMMUNE_ID_RESIDENCE,
+                                        idCheck.ZONE_ID_RESIDENCE,
+                                        idCheck.COLLINE_ID_RESIDENCE,
+                                        idCheck.DISTRICT_ID,
+                                        idCheck.NATIONALITE_ID,
+                                        moment().format('YYYY/MM/DD HH:mm:ss'),
+                                        idCheck.NUMERO_DOCUMENT,
+                                        idCheck.STRUCTURE_ID,
+                                        idCheck.DATE_NAISSANCE,
+                                        age,
+                                        idCheck.DOCUMENT_ID,
+                                        idCheck.GENRE_ID,
+                                        EST_VOYAGEUR = 1,
+                                        idCheck.PROVENANCE_PAYS_ID,
+                                        idCheck.HOTEL_ID,
+                                        pointEntre,
+                                        idCheck.PROVENANCE,
+                                        REQUERANT_STATUT_ID = 3,
+                                        idCheck.VOL_ID,
+                                        moment().format('YYYY/MM/DD HH:mm:ss'),
+                                        idCheck.TEMPO_REQUERANT_ID,
+                                        idCheck.AUTRE_DESTINATION ? idCheck.AUTRE_DESTINATION : idCheck.AUTRE_HOTEL,
+                                        idCheck.REQUERANT_LANGUE_CERTIFICAT,
 
-            await query ("update tempo_requerant SET TRAITE=?, USER_ID= ?, DATE_TRAITEMENT=? WHERE TEMPO_REQUERANT_ID=?",[
-                1, req.userId, moment().format('YYYY/MM/DD HH:mm:ss'), TEMPO_REQUERANT_ID
-            ])
+                              );
 
-            const historique = (await historiqueModel.findById(insertId))[0]
-            res.status(200).json({
-                success: true,
-                message: "enregistrement reussi avec succes"
-            })
-           
+                              //insertion dans la table requerant trakings
+                              const { IdTraking } = await historiqueModel.createOne(
+                                        insertId,
+                                        LONGITUDE,
+                                        LATITUDE,
+                                        ETAPE = 1,
+                                        req.userId,
 
-        }
-        else {
-            res.status(411).json(
-                {
-                    success: false,
-                    message: "La validation des données a échoué",
-                    errors: validation.getErrors(),
-                })
+                                        PHOTO_BRD ? `${fileNamebrd}` : null,
+                                        `${fileNameprs}`,// IMAGE.name
 
-        }
+                              );
 
-        if (!req.files){
-            res.send({
-                status: false,
-                message: 'No files uploaded'
-            });
-        }
+                              //insertion dans la table requerant laboratoire
+                              const { idLaboratoire } = await historiqueModel.createLaboratoire(
+                                        idCheck.STRUCTURE_ID,
+                                        insertId,
+                                        STATUT = 1
+                              );
 
-    }
+                              await query("update tempo_requerant SET TRAITE=?, USER_ID= ?, DATE_TRAITEMENT=? WHERE TEMPO_REQUERANT_ID=?", [
+                                        1, req.userId, moment().format('YYYY/MM/DD HH:mm:ss'), TEMPO_REQUERANT_ID
+                              ])
 
-    catch (error) {
-        console.log(error)
-        res.status(500).send("server error")
-    }
+                              const historique = (await historiqueModel.findById(insertId))[0]
+                              res.status(200).json({
+                                        success: true,
+                                        message: "enregistrement reussi avec Succès"
+                              })
+
+
+                    }
+                    else {
+                              res.status(411).json(
+                                        {
+                                                  success: false,
+                                                  message: "La validation des données a échoué",
+                                                  errors: validation.getErrors(),
+                                        })
+
+                    }
+
+                    if (!req.files) {
+                              res.send({
+                                        status: false,
+                                        message: 'No files uploaded'
+                              });
+                    }
+
+          }
+
+          catch (error) {
+                    console.log(error)
+                    res.status(500).send("server error")
+          }
 }
-const findByIdrequerant = async (req, res) =>{
+const findByIdrequerant = async (req, res) => {
 
-    try {
-        const { cq_id }= req.query;
+          try {
+                    const { cq_id } = req.query;
 
-        var requerantRDV =(await historiqueModel.findByIdC("TEMPO_REQUERANT_ID", cq_id))[0];
-        if (requerantRDV) {
-            res.status(200).json
-                ({
-                    success: true,
-                    message: "conquerant existe",
-                    requerantRDV
-                });
+                    var requerantRDV = (await historiqueModel.findByIdC("TEMPO_REQUERANT_ID", cq_id))[0];
+                    if (requerantRDV) {
+                              res.status(200).json
+                                        ({
+                                                  success: true,
+                                                  message: "conquerant existe",
+                                                  requerantRDV
+                                        });
 
-        }
-        else {
-            res.status(404).json(
-                {
-                    success: false,
-                    message: "conquerant n'existe pas",
+                    }
+                    else {
+                              res.status(404).json(
+                                        {
+                                                  success: false,
+                                                  message: "conquerant n'existe pas",
 
-                })
-            204
-        }
-    }
-    catch (error) {
-        console.log(error)
-        res.status(500).send("server error")
-    }
+                                        })
+                              204
+                    }
+          }
+          catch (error) {
+                    console.log(error)
+                    res.status(500).send("server error")
+          }
 }
 
 const findAll = async (req, res) => {
-    const {q,limit,offset}=req.query
+          const { q, limit, offset } = req.query
 
-    try {
-        const historique = await historiqueModel.findhistorique(req.userId,q,offset,limit)
-        res.status(200).json(historique)
+          try {
+                    const historique = await historiqueModel.findhistorique(req.userId, q, offset, limit)
+                    res.status(200).json(historique)
 
-    }
-    catch (error){
-        console.log(error)
-        res.status(500).send("server error")
-    }
+          }
+          catch (error) {
+                    console.log(error)
+                    res.status(500).send("server error")
+          }
 }
 module.exports = {
-    createhistorique,
-    findAll,
-    findByIdrequerant
+          createhistorique,
+          findAll,
+          findByIdrequerant
 
 }

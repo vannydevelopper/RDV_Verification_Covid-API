@@ -6,17 +6,17 @@ const findByIdrequerant = async (req, res) => {
     try {
         const { cq_id } = req.query;
 
-       var requerantRDV = (await verificationModel.findByIdC(cq_id))[0];
-       const requerant_Id = (await query("SELECT REQUERANT_ID FROM requerant WHERE TEMPO_REQUERANT_ID=?",[cq_id]))[0]
-       //const REQUERANT_ID=requerant_Id.REQUERANT_ID
-      // console.log(requerant_Id)
+        var requerantRDV = (await verificationModel.findByIdC(cq_id))[0];
+        const requerant_Id = (await query("SELECT REQUERANT_ID FROM requerant WHERE TEMPO_REQUERANT_ID=?", [cq_id]))[0]
+        //const REQUERANT_ID=requerant_Id.REQUERANT_ID
+        // console.log(requerant_Id)
         if (requerantRDV) {
             const traite = (await verificationModel.findStatut("TEMPO_REQUERANT_ID", cq_id))[0];
 
             if (traite.TRAITE == 1) {
                 const Requerant_statut = (await verificationModel.findStatut_requerant("TEMPO_REQUERANT_ID", cq_id))[0];
 
-                if (Requerant_statut && Requerant_statut.REQUERANT_STATUT_ID ==3){
+                if (Requerant_statut && Requerant_statut.REQUERANT_STATUT_ID == 3) {
                     return res.status(200).json
                         ({
                             success: true,
@@ -28,7 +28,7 @@ const findByIdrequerant = async (req, res) => {
                 }
                 const Requerant_statut_Id = (await verificationModel.find_Requerant_statut_Id("TEMPO_REQUERANT_ID", cq_id))[0];
                 //console.log(Requerant_statut_Id)
-                if (Requerant_statut_Id && Requerant_statut_Id.REQUERANT_STATUT_ID !=3 && Requerant_statut_Id.EST_GENERE == 0) {
+                if (Requerant_statut_Id && Requerant_statut_Id.REQUERANT_STATUT_ID != 3 && Requerant_statut_Id.EST_GENERE == 0) {
 
                     return res.status(200).json
                         ({
@@ -43,11 +43,13 @@ const findByIdrequerant = async (req, res) => {
                     return res.status(200).json
                         ({
                             success: true,
+                            requerantRDV,
+                            requerant_Id,
                             message: "Le requerant n'a pas de droit a  la validation",
 
                         })
                 }
-            
+
 
             } else {
 
@@ -62,8 +64,8 @@ const findByIdrequerant = async (req, res) => {
                             requerantRDV,
                             payement
                         })
-    
-    
+
+
                 } else {
                     res.status(200).json
                         ({
@@ -72,7 +74,7 @@ const findByIdrequerant = async (req, res) => {
                             requerantRDV,
                             payement,
                             messageTraite0: "Traite0",
-    
+
                         })
                 }
             }

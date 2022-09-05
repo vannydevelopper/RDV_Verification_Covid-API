@@ -1,4 +1,7 @@
 const express = require("express")
+const https = require('https')
+const http = require('http')
+const fs = require('fs');
 const cors = require("cors");
 const historiqueRouter = require("./routes/historiqueRouter");
 const userRouter = require("./routes/userRouter")
@@ -32,8 +35,19 @@ app.use("/echantillon",echantillonRouter)
 app.use("/resultat",resultatRouter)
 app.use("/type",TypeRouter)
  app.use("/resultats",ResultatsRouter)
-const port = process.env.PORT || 8000;
+const port = 8000;
 
-app.listen(port, async () => {
-  console.log("server is running on port: "+ port);
-});
+const isHttps = false
+if(isHttps) {
+          var options = {
+                    key: fs.readFileSync('/var/www/html/api/https/privkey.pem'),
+                    cert: fs.readFileSync('/var/www/html/api/https/cert.pem')
+          };
+          https.createServer(options, app).listen(port, async () => {
+                    console.log("server is running on port: " + port);
+          });
+} else {
+          http.createServer(app).listen(port, async () => {
+                    console.log("server is running on port: " + port);
+          });
+}

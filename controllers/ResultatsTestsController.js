@@ -73,7 +73,7 @@ const CreateResultats = async (req, res) => {
             ])
             res.status(200).json({
                 success: true,
-                message: "l'enregistrement est faite avec succes"
+                message: "l'enregistrement est faite avec Succès"
             })
         }
         else {
